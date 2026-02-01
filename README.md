@@ -33,4 +33,18 @@ Notes:
 - The app exposes a health endpoint at `/health` that Render can use for health checks.
 - For production, prefer Postgres over SQLite and use a managed DB service.
 
+## Postgres & data persistence 🔒
+- Render provides **Managed PostgreSQL**; create one in the Render dashboard and set `DATABASE_URL` for the web service.
+- The application **normalizes `postgres://` → `postgresql://` automatically** (see `papa.py`), but it's best to use a `postgresql://` URL if possible.
+- For secure connections, append `?sslmode=require` to the URL if your DB provider requires TLS.
+
+### Quick local Postgres (Docker)
+```bash
+# Start a temporary Postgres and set DATABASE_URL to test locally
+docker run --name no1-db -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:15
+export DATABASE_URL='postgresql://postgres:secret@localhost:5432/postgres'
+```
+
+If you have existing data in `local.db` and want a migration, I can add a small Python script to copy rows into Postgres—tell me and I'll create it.
+
 > To access the admin view, set the environment variable `ADMIN_PASSWORD` and visit `/admin-login` (or use the admin login form).
