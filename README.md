@@ -45,6 +45,22 @@ docker run --name no1-db -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:15
 export DATABASE_URL='postgresql://postgres:secret@localhost:5432/postgres'
 ```
 
-If you have existing data in `local.db` and want a migration, I can add a small Python script to copy rows into Postgres—tell me and I'll create it.
+If you have existing data in `local.db` and want a migration, use the provided script `scripts/migrate_sqlite_to_pg.py`.
+
+### Migration example
+```bash
+# Export target database URL (or pass --target)
+export DATABASE_URL='postgresql://user:pass@host:5432/dbname?sslmode=require'
+python scripts/migrate_sqlite_to_pg.py --sqlite local.db --target "$DATABASE_URL"
+# Add --force to overwrite existing data in target
+python scripts/migrate_sqlite_to_pg.py --sqlite local.db --target "$DATABASE_URL" --force
+```
+
+### GitHub Actions deploy to Render
+A workflow is included at `.github/workflows/deploy-to-render.yml` which triggers a deploy when `main` is pushed.
+
+You must set the following **repository secrets** in GitHub:
+- `RENDER_API_KEY` — your Render API key (read-only deploy key is fine)
+- `RENDER_SERVICE_ID` — the service id for the Web Service on Render (starts with `srv-`)
 
 > To access the admin view, set the environment variable `ADMIN_PASSWORD` and visit `/admin-login` (or use the admin login form).
