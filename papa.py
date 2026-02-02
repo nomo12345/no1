@@ -36,7 +36,7 @@ def favicon():
     return redirect(url_for('static', filename='favicon.svg'))
 #ดึงค่า URLฐานข้อมลจากตัวแปรระบบ (จะไปตั้งค่าใน Render)
 # Normalize DATABASE_URL: some providers return 'postgres://' which SQLAlchemy may not accept
-db_url = os.environ.get('DATABASE_URL', 'postgresql://postgres:adminworakanlnwzaza@db.xuigjtlhxvpjhlvecfmo.supabase.co:5432/postgres )
+db_url = os.environ.get('DATABASE_URL', 'postgresql://postgres:adminworakanlnwzaza@db.xuigjtlhxvpjhlvecfmo.supabase.co:5432/postgres' )
 if db_url and db_url.startswith('postgres://'):
     db_url = db_url.replace('postgres://', 'postgresql://', 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
